@@ -9,15 +9,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.GEMINI_API_KEY,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
-// Health check
 app.get("/health", (req, res) => {
   res.json({ status: "ok", app: "Bee AI" });
 });
 
-// AI chat API
 app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
@@ -28,19 +27,27 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
-    const response = await client.responses.create({
-      model: process.env.OPENAI_MODEL || "gpt-5.6-luna",
-      instructions:
-        "You are Bee AI, a helpful, friendly and smart AI assistant. Give clear and useful answers.",
-      input: message
+    const response = await client.chat.completions.create({
+      model: process.env.GEMINI_MODEL || "gemini-3.8-flash",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are Bee AI, a helpful, friendly and smart AI assistant. Give clear and useful answers."
+        },
+        {
+          role: "user",
+          content: message
+        }
+      ]
     });
 
     res.json({
-      reply: response.output_text
+      reply: response.choices[0].message.content
     });
 
   } catch (error) {
-    console.error("AI Error:", error);
+    console.error("Gemini Error:", error);
 
     res.status(500).json({
       error: "Bee AI could not process your request."
@@ -48,13 +55,10 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-// Send all other routes to the website
 app.get("/{*splat}", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Render gives us PORT automatically.
-// 10000 is the normal Render default.
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, "0.0.0.0", () => {
