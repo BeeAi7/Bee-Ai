@@ -36,3 +36,5 @@ Never put your real API key in frontend files or GitHub.
 
 - 4.3 performance pass: lighter backdrop blur, slower background animation, no per-message entrance animation, debounced chat search, capped sidebar rendering, and background animation pauses when the tab is hidden.
 - Visual style remains the same dark liquid-glass design.
+
+- 4.4 ultra-light mode: decorative background animation removed, liquid-glass blur removed from major panels, static dark glass surfaces retained for a much lighter GPU load.
