@@ -1,7 +1,6 @@
 {
   "name": "bee-ai-2",
   "version": "2.0.1",
-  "type": "module",
   "scripts": { "start": "node server.js" },
   "dependencies": {
     "dotenv": "^17.2.2",
