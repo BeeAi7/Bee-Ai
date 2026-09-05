@@ -33,3 +33,6 @@ Never put your real API key in frontend files or GitHub.
 
 - Smooth entrance, hover, logo, background and typing animations
 - `prefers-reduced-motion` support for users who disable motion
+
+- 4.3 performance pass: lighter backdrop blur, slower background animation, no per-message entrance animation, debounced chat search, capped sidebar rendering, and background animation pauses when the tab is hidden.
+- Visual style remains the same dark liquid-glass design.
