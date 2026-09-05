@@ -1,55 +1,62 @@
-import express from "express";
-import OpenAI from "openai";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-dotenv.config();
+const express = require("express");
+const path = require("path");
+const OpenAI = require("openai");
+require("dotenv").config();
 
 const app = express();
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const client = process.env.OPENAI_API_KEY
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-  : null;
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", app: "Bee AI" });
+});
+
+// AI chat API
 app.post("/api/chat", async (req, res) => {
   try {
-    if (!client) {
-      return res.status(500).json({
-        error: "OPENAI_API_KEY is not configured. Add it to .env."
+    const { message } = req.body;
+
+    if (!message || !message.trim()) {
+      return res.status(400).json({
+        error: "Message is required"
       });
     }
 
-    const messages = Array.isArray(req.body.messages) ? req.body.messages : [];
-    const input = messages.slice(-20).map((m) => ({
-      role: m.role === "assistant" ? "assistant" : "user",
-      content: String(m.content || "")
-    }));
-
     const response = await client.responses.create({
       model: process.env.OPENAI_MODEL || "gpt-5.6-luna",
-      instructions: "You are Bee AI, a helpful, friendly AI assistant. Be clear, accurate, concise, and age-appropriate.",
-      input
+      instructions:
+        "You are Bee AI, a helpful, friendly and smart AI assistant. Give clear and useful answers.",
+      input: message
     });
 
-    res.json({ text: response.output_text || "I couldn't generate a response." });
+    res.json({
+      reply: response.output_text
+    });
+
   } catch (error) {
-    console.error(error);
+    console.error("AI Error:", error);
+
     res.status(500).json({
-      error: "Bee AI could not reach the AI service. Check your .env configuration."
+      error: "Bee AI could not process your request."
     });
   }
 });
 
+// Send all other routes to the website
 app.get("/{*splat}", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log("Bee AI running on http://localhost:" + PORT);
+// Render gives us PORT automatically.
+// 10000 is the normal Render default.
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Bee AI running on port ${PORT}`);
 });
