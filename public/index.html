@@ -1,122 +1,131 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bee AI</title>
 <style>
-:root{--bg:#212121;--side:#171717;--panel:#2b2b2b;--line:#3a3a3a;--text:#ececec;--muted:#a9a9a9;--yellow:#ffd21c;--yellow2:#f5c400}
-*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;background:var(--bg);color:var(--text)}
-button,input,textarea{font:inherit}.app{height:100%;display:flex}.sidebar{width:278px;background:var(--side);display:flex;flex-direction:column;padding:10px}.brand{height:52px;display:flex;align-items:center;gap:10px;padding:0 9px;font-weight:700;font-size:20px}.bee{width:34px;height:34px;border-radius:10px;background:var(--yellow);display:grid;place-items:center;color:#111;font-size:20px}.new{border:1px solid #4a4a4a;background:transparent;color:var(--text);border-radius:9px;padding:11px;text-align:left;cursor:pointer}.new:hover,.nav button:hover,.chat:hover{background:#242424}.nav{margin-top:10px}.nav button{width:100%;background:transparent;border:0;color:#ddd;text-align:left;padding:10px;border-radius:8px;cursor:pointer}.section{font-size:12px;color:#777;padding:18px 10px 6px}.chats{overflow:auto;flex:1}.chat{display:flex;align-items:center;gap:7px;padding:9px 10px;border-radius:8px;cursor:pointer;color:#ddd;font-size:13px}.chat.active{background:#2d2d2d}.chat span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.delete{visibility:hidden;color:#888}.chat:hover .delete{visibility:visible}.bottom{padding-top:8px;border-top:1px solid var(--line)}.profileBtn{display:flex;align-items:center;gap:9px;padding:9px;border-radius:8px;cursor:pointer}.profileBtn:hover{background:#242424}.avatar{width:32px;height:32px;border-radius:50%;background:var(--yellow);color:#111;display:grid;place-items:center;font-weight:800;flex:none}.profileText{overflow:hidden;flex:1}.profileText b,.profileText small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profileText small{color:#888}.main{flex:1;min-width:0;display:flex;flex-direction:column}.top{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid transparent}.model{font-weight:650}.actions{display:flex;gap:4px}.icon{border:0;background:transparent;color:#ddd;border-radius:8px;padding:8px;cursor:pointer}.icon:hover{background:#333;color:var(--yellow)}.content{flex:1;overflow:auto}.welcome{max-width:930px;margin:auto;padding:70px 22px 20px}.hero{text-align:center}.heroLogo{font-size:64px}.hero h1{font-size:48px;margin:5px 0}.hero h1 span{color:var(--yellow)}.hero p{color:var(--muted);margin-top:0}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:35px}.card{background:transparent;border:1px solid var(--line);border-radius:12px;padding:15px;min-height:105px;color:#ddd;text-align:left;cursor:pointer}.card:hover{border-color:#777}.card b{display:block;margin-bottom:8px}.card span{color:var(--yellow)}.messages{max-width:850px;margin:auto;padding:30px 22px 130px}.row{display:flex;gap:12px;margin:28px 0}.row.user{justify-content:flex-end}.row.user .bubble{background:#303030}.bubble{max-width:78%;line-height:1.6;white-space:pre-wrap}.composerArea{position:relative;background:linear-gradient(transparent,var(--bg) 22%);padding:18px 22px 20px}.composer{max-width:850px;margin:auto;border:1px solid #555;background:#2b2b2b;border-radius:18px;display:flex;align-items:flex-end;padding:10px;box-shadow:0 5px 30px #0003}.composer textarea{flex:1;background:transparent;border:0;outline:0;color:#fff;resize:none;max-height:160px;min-height:28px;padding:6px}.send{width:38px;height:38px;border-radius:50%;border:0;background:var(--yellow);color:#111;font-weight:900;cursor:pointer}.send:disabled{opacity:.35}.hint{text-align:center;color:#777;font-size:11px;margin-top:8px}.drawer{position:fixed;right:0;top:0;height:100%;width:340px;background:#181818;border-left:1px solid var(--line);transform:translateX(105%);transition:.22s;z-index:20;padding:18px;overflow:auto}.drawer.open{transform:translateX(0)}.drawerHead{display:flex;justify-content:space-between;align-items:center}.profileBig{text-align:center;padding:25px 0;border-bottom:1px solid var(--line)}.bigAvatar{width:78px;height:78px;margin:auto;border-radius:50%;background:var(--yellow);color:#111;display:grid;place-items:center;font-size:30px;font-weight:800}.setting{border-bottom:1px solid #303030;padding:16px 3px;display:flex;justify-content:space-between;align-items:center;gap:10px}.setting small{color:#888;display:block;margin-top:4px}.setting button,.select{background:#2a2a2a;border:1px solid #444;color:#eee;border-radius:8px;padding:7px 10px}.toggle{width:42px;height:24px;border-radius:20px;border:0;background:#555;position:relative;cursor:pointer}.toggle:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#ddd;left:3px;top:3px;transition:.2s}.toggle.on{background:var(--yellow)}.toggle.on:after{left:21px;background:#111}.overlay{display:none;position:fixed;inset:0;background:#0007;z-index:15}.overlay.open{display:block}.modal{display:none;position:fixed;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);width:min(500px,92vw);background:#1b1b1b;border:1px solid #444;border-radius:14px;padding:20px}.modal.open{display:block}.modal input{width:100%;background:#292929;border:1px solid #444;color:white;border-radius:8px;padding:11px;margin:8px 0 14px;outline:0}.modal .primary{background:var(--yellow);border:0;padding:10px 16px;border-radius:8px;color:#111;font-weight:700;cursor:pointer}.search{display:none;position:fixed;z-index:25;top:70px;left:50%;transform:translateX(-50%);width:min(650px,90vw);background:#1b1b1b;border:1px solid #444;border-radius:12px;padding:14px}.search.open{display:block}.search input{width:100%;background:#292929;border:1px solid #444;color:#fff;padding:12px;border-radius:8px;outline:0}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(20px);background:#333;border:1px solid #555;padding:10px 15px;border-radius:9px;opacity:0;pointer-events:none;transition:.2s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:800px){.sidebar{width:230px}.cards{grid-template-columns:1fr 1fr}.drawer{width:min(340px,90vw)}}@media(max-width:620px){.sidebar{display:none}.cards{grid-template-columns:1fr}.welcome{padding-top:35px}.hero h1{font-size:40px}.messages{padding-bottom:120px}.bubble{max-width:90%}}
-
-/* Bee AI Lite Motion + very light glass */
-.sidebar,.top,.composer,.drawer,.modal,.search,.card{background:color-mix(in srgb, var(--panel) 88%, transparent);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
-.bee,.heroLogo{animation:beeFloat 3.2s ease-in-out infinite}.card{transition:transform .16s ease,border-color .16s ease,background .16s ease}.card:hover{transform:translateY(-2px)}
-.row{animation:msgIn .18s ease-out}.drawer{transition:transform .2s ease}.toast{transition:opacity .18s ease,transform .18s ease}
-@keyframes beeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes msgIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-.toolsRow{display:flex;gap:8px;max-width:850px;margin:0 auto 8px;overflow:auto;padding:0 2px}.toolBtn{border:1px solid var(--line);background:var(--panel);color:#ddd;border-radius:10px;padding:7px 10px;cursor:pointer;white-space:nowrap}.toolBtn:hover{border-color:#777;color:var(--yellow)}
-.gameModal{display:none;position:fixed;z-index:35;left:50%;top:50%;transform:translate(-50%,-50%);width:min(430px,94vw);background:#1b1b1b;border:1px solid #444;border-radius:16px;padding:18px;box-shadow:0 18px 60px #0008}.gameModal.open{display:block}.gameHead{display:flex;align-items:center;justify-content:space-between}.gameGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:270px;margin:18px auto}.cell{height:82px;border:1px solid #444;background:#292929;color:#fff;border-radius:10px;font-size:28px;font-weight:800;cursor:pointer}.cell:hover{background:#333}.gameStatus{text-align:center;color:#aaa;min-height:22px}.gameActions{display:flex;justify-content:center;gap:8px}.miniBtn{border:1px solid #555;background:#292929;color:#eee;border-radius:8px;padding:8px 12px;cursor:pointer}.miniBtn.primary{background:var(--yellow);color:#111;border-color:var(--yellow)}
+:root{--bg:#08090b;--panel:#101216;--panel2:#15171c;--line:#282b31;--text:#f5f5f5;--muted:#9298a3;--yellow:#ffd21c;--yellow2:#f0b900}
+*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input{font:inherit}.app{height:100vh;display:flex;overflow:hidden}
+.sidebar{width:270px;background:rgba(15,17,21,.96);border-right:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:800;padding:8px}.bee{font-size:30px;animation:float 3.2s ease-in-out infinite}.logo span,.yellow{color:var(--yellow)}
+.new{border:0;background:var(--yellow);color:#111;border-radius:12px;padding:13px;font-weight:800;cursor:pointer}
+.section{font-size:12px;color:var(--muted);padding:8px}.chats{overflow:auto;flex:1}.chat{padding:11px;border-radius:10px;color:#dfe2e8;cursor:pointer;font-size:14px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat.active,.chat:hover{background:#1b1e24}
+.bottom{border-top:1px solid var(--line);padding-top:12px}.profile{display:flex;gap:10px;align-items:center;padding:8px}.avatar{width:36px;height:36px;border-radius:50%;background:var(--yellow);color:#111;display:grid;place-items:center;font-weight:800}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}.topbar{height:64px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(10,11,14,.88);backdrop-filter:blur(5px)}
+.brand{font-weight:800;font-size:21px}.actions{display:flex;gap:8px}.icon,.tool{border:1px solid var(--line);background:#14161a;color:#ddd;border-radius:10px;padding:8px 10px;cursor:pointer}
+.content{flex:1;overflow:auto;padding:35px 18px}.welcome{text-align:center;margin:15px auto 30px}.bigbee{font-size:64px;animation:float 3.2s ease-in-out infinite}.welcome h1{font-size:38px;margin:10px 0 6px}.welcome p{color:var(--muted)}
+.messages{width:min(900px,100%);margin:0 auto}.message{display:flex;gap:10px;margin:18px 0;animation:in .18s ease-out}.message.user{justify-content:flex-end}.bubble{max-width:78%;padding:13px 16px;border-radius:16px;background:var(--panel2);border:1px solid #252830;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.user .bubble{background:var(--yellow);color:#111;border-color:var(--yellow)}
+.mini{width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--yellow);display:grid;place-items:center}.typing{opacity:.8}.dots span{display:inline-block;animation:dot 1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+.suggestions,.tools{width:min(900px,100%);margin:20px auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.chip{border:1px solid var(--line);background:#111318;color:#ddd;border-radius:12px;padding:10px 12px;cursor:pointer}.chip:hover{border-color:var(--yellow)}
+.composer-wrap{width:min(900px,100%);margin:18px auto 0}.composer{display:flex;gap:8px;align-items:center;background:rgba(17,19,23,.9);border:1px solid #30343c;border-radius:17px;padding:8px;backdrop-filter:blur(5px)}#input{flex:1;background:transparent;border:0;outline:0;color:#fff;padding:11px;font-size:15px}.send{width:43px;height:43px;border:0;border-radius:50%;background:var(--yellow);color:#111;font-weight:900;cursor:pointer}.disclaimer{text-align:center;color:#6f7480;font-size:11px;margin-top:8px}
+pre{background:#090a0c;border:1px solid #292c33;border-radius:10px;padding:12px;overflow:auto;white-space:pre}.codehead{display:flex;justify-content:space-between;color:#aaa;font-size:11px;margin-bottom:6px}.copy{border:1px solid #444;background:#17191d;color:#fff;border-radius:7px;padding:4px 8px;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.box{width:min(440px,100%);background:#111318;border:1px solid #30343c;border-radius:18px;padding:18px;box-shadow:0 12px 50px #000}.box h2{margin-top:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px}.close{border:1px solid var(--line);background:#191b20;color:#fff;border-radius:9px;padding:8px 12px;cursor:pointer}
+.board{display:grid;grid-template-columns:repeat(3,80px);gap:7px;justify-content:center;margin:18px 0}.cell{width:80px;height:80px;border:1px solid #383c45;background:#171a20;color:var(--yellow);font-size:30px;border-radius:10px;cursor:pointer}
+@keyframes float{50%{transform:translateY(-4px)}}@keyframes in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}@keyframes dot{50%{opacity:.25}}
+@media(max-width:760px){.sidebar{display:none}.welcome h1{font-size:30px}.bubble{max-width:88%}.content{padding:25px 12px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
- <div class="brand"><div class="bee">🐝</div>Bee AI</div>
- <button class="new" onclick="newChat()">＋ &nbsp; New chat</button>
- <div class="nav"><button onclick="showToast('Explore is ready for the next Bee AI update.')">✦ &nbsp; Explore</button><button onclick="showToast('Library is ready for the next Bee AI update.')">▣ &nbsp; Library</button></div>
- <div class="section">Recent chats</div>
- <div id="chatList" class="chats"></div>
- <div class="bottom"><div class="profileBtn" onclick="openDrawer()"><div id="sideAvatar" class="avatar">G</div><div class="profileText"><b id="sideName">Guest</b><small id="sideEmail">Local account</small></div><span>•••</span></div></div>
+  <div class="logo"><div class="bee">🐝</div><div>Bee <span>AI</span></div></div>
+  <button class="new" onclick="newChat()">＋ New Chat</button>
+  <div class="section">Recent chats</div>
+  <div class="chats" id="chatList"></div>
+  <div class="bottom"><div class="profile"><div class="avatar">B</div><div><b>Bee AI</b><br><small style="color:#888">Free Plan</small></div></div></div>
 </aside>
 <main class="main">
- <header class="top"><button class="icon" onclick="newChat()">Bee AI ▾</button><div class="actions"><button class="icon" onclick="openSearch()">⌕</button><button class="icon" onclick="toggleDark()">◐</button><button class="icon" onclick="openDrawer()">⚙</button></div></header>
- <section id="content" class="content">
-  <div id="welcome" class="welcome">
-   <div class="hero"><div class="heroLogo">🐝</div><h1>Bee <span>AI</span></h1><p>Think Faster. Go Smarter.</p></div>
-   <div class="cards">
-    <button class="card" onclick="ask('Explain a difficult topic in simple words')"><b>💡 Explain a topic</b><span>Learn something →</span></button>
-    <button class="card" onclick="ask('Help me write a professional message')"><b>✍️ Write for me</b><span>Create text →</span></button>
-    <button class="card" onclick="ask('Help me debug my code')"><b>⌘ Coding help</b><span>Fix a problem →</span></button>
-    <button class="card" onclick="ask('Give me creative ideas for a project')"><b>✨ Brainstorm</b><span>Get ideas →</span></button>
-   </div>
-  </div>
-  <div id="messages" class="messages"></div>
- </section>
- <div class="composerArea"><div class="toolsRow"><button class="toolBtn" onclick="openGame()">🎮 Mini Game</button><button class="toolBtn" onclick="ask('Give me 5 fun things I can do right now')">⚡ Quick Ideas</button><button class="toolBtn" onclick="copyChat()">📋 Copy Chat</button><button class="toolBtn" onclick="downloadChat()">⬇️ Export</button></div><div class="composer"><button class="icon" onclick="showToast('Attachments will be connected to the backend later.')">＋</button><textarea id="input" rows="1" placeholder="Message Bee AI..." oninput="resize(this)" onkeydown="keySend(event)"></textarea><button id="send" class="send" onclick="send()">↑</button></div><div class="hint">Bee AI can make mistakes. Check important information.</div></div>
-</main>
+<header class="topbar"><button class="icon" onclick="toggleSidebar()">☰</button><div class="brand">🐝 Bee <span>AI</span></div><div class="actions"><button class="icon" onclick="toggleTheme()">☀</button><button class="icon" onclick="openGame()">🎮</button></div></header>
+<section class="content" id="content">
+<div class="welcome" id="welcome"><div class="bigbee">🐝</div><h1>Hello, <span class="yellow">Bee AI!</span></h1><p>Your fast, friendly AI assistant.</p></div>
+<div class="messages" id="messages"></div>
+<div class="suggestions" id="suggestions">
+<button class="chip" onclick="ask('Explain AI in simple words')">Explain AI simply</button>
+<button class="chip" onclick="ask('Give me some study ideas')">Study ideas</button>
+<button class="chip" onclick="ask('Help me build a website')">Build a website</button>
+<button class="chip" onclick="ask('Give me creative ideas')">Creative ideas</button>
 </div>
+<div class="tools"><button class="chip" onclick="openGame()">🎮 Mini Game</button><button class="chip" onclick="quickIdeas()">⚡ Quick Ideas</button><button class="chip" onclick="copyChat()">📋 Copy Chat</button><button class="chip" onclick="exportChat()">⬇️ Export</button></div>
+<div class="composer-wrap"><div class="composer"><button class="tool" onclick="document.getElementById('file').click()">📎</button><input id="input" placeholder="Message Bee AI..." autocomplete="off"><input id="file" type="file" hidden><button class="tool" onclick="alert('Voice input can be connected later.')">🎤</button><button class="send" onclick="send()">➤</button></div><div class="disclaimer">Bee AI can make mistakes. Check important information.</div></div>
+</section>
+</main></div>
 
-<div id="overlay" class="overlay" onclick="closeDrawer()"></div>
-<aside id="drawer" class="drawer">
- <div class="drawerHead"><b>Settings & Profile</b><button class="icon" onclick="closeDrawer()">×</button></div>
- <div class="profileBig"><div id="bigAvatar" class="bigAvatar">G</div><h2 id="bigName">Guest</h2><p id="bigEmail" style="color:#888">Local account</p><button class="settingBtn" onclick="openAccountModal()" style="background:var(--yellow);border:0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer">Set profile</button></div>
- <div class="setting"><div><b>Dark mode</b><small>Bee AI appearance</small></div><button id="darkToggle" class="toggle on" onclick="toggleDark()"></button></div>
- <div class="setting"><div><b>Yellow accent</b><small>Bee AI brand color</small></div><button class="toggle on"></button></div>
- <div class="setting"><div><b>Enter to send</b><small>Shift + Enter for a new line</small></div><button id="enterToggle" class="toggle on" onclick="toggleEnter()"></button></div>
- <div class="setting"><div><b>Clear all chats</b><small>Delete saved conversations</small></div><button onclick="clearChats()">Clear</button></div>
- <div class="setting"><div><b>About Bee AI</b><small>Frontend prototype — connect your AI API for real answers.</small></div></div>
-</aside>
-
-<div id="accountModal" class="modal">
- <div style="display:flex;justify-content:space-between"><b>Profile</b><button class="icon" onclick="closeAccountModal()">×</button></div>
- <label>Name</label><input id="nameInput" placeholder="Your name">
- <label>Email</label><input id="emailInput" placeholder="you@example.com">
- <button class="primary" onclick="saveProfile()">Save</button>
- <p style="color:#888;font-size:12px">For real Google account data, connect Google Identity Services/OAuth in the backend. Never put private OAuth secrets in this HTML file.</p>
-</div>
-<div id="searchBox" class="search"><input id="searchInput" placeholder="Search chats..." oninput="searchChats(this.value)" autofocus></div>
-<div id="gameModal" class="gameModal"><div class="gameHead"><b>🐝 Bee Tic-Tac-Toe</b><button class="icon" onclick="closeGame()">×</button></div><div id="gameStatus" class="gameStatus">Your turn — you are X</div><div id="gameGrid" class="gameGrid"></div><div class="gameActions"><button class="miniBtn primary" onclick="resetGame()">New Game</button><button class="miniBtn" onclick="closeGame()">Close</button></div></div><div id="toast" class="toast"></div>
+<div class="modal" id="gameModal"><div class="box"><h2>🐝 Bee Tic-Tac-Toe</h2><p id="gameStatus">Your turn — you are X.</p><div class="board" id="board"></div><div class="modal-actions"><button class="close" onclick="resetGame()">Restart</button><button class="close" onclick="closeGame()">Close</button></div></div></div>
 
 <script>
-const KEY='bee_ai_state_v2';
-let state=JSON.parse(localStorage.getItem(KEY)||'{"chats":[],"profile":{"name":"Guest","email":"Local account"},"dark":true,"enter":true}');
-let currentId=null;
+const $=id=>document.getElementById(id);
+const KEY="bee_ai_full_v51";
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{chats:[],current:null,theme:"dark"};
+let saving=null;
 
-function persist(){localStorage.setItem(KEY,JSON.stringify(state));renderChats();applyProfile()}
-function applyProfile(){
- const n=state.profile.name||'Guest',e=state.profile.email||'Local account',i=(n.trim()[0]||'G').toUpperCase();
- for(const id of ['sideName','bigName'])document.getElementById(id).textContent=n;
- for(const id of ['sideEmail','bigEmail'])document.getElementById(id).textContent=e;
- document.getElementById('sideAvatar').textContent=i;document.getElementById('bigAvatar').textContent=i;
- document.getElementById('darkToggle').classList.toggle('on',state.dark);
- document.getElementById('enterToggle').classList.toggle('on',state.enter);
+function save(){clearTimeout(saving);saving=setTimeout(()=>localStorage.setItem(KEY,JSON.stringify(state)),300)}
+function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function currentChat(){return state.chats.find(c=>c.id===state.current)}
+function renderChats(){
+  const box=$("chatList"); const frag=document.createDocumentFragment();
+  state.chats.slice().reverse().slice(0,40).forEach(c=>{const d=document.createElement("div");d.className="chat"+(c.id===state.current?" active":"");d.textContent=c.title||"New Chat";d.onclick=()=>loadChat(c.id);frag.appendChild(d)});box.replaceChildren(frag)
 }
-function renderChats(filter=''){
- const el=document.getElementById('chatList');el.innerHTML='';
- [...state.chats].reverse().forEach(c=>{if(filter && !c.title.toLowerCase().includes(filter.toLowerCase()))return;
-  const d=document.createElement('div');d.className='chat '+(c.id===currentId?'active':'');
-  d.innerHTML='<span>◯ '+esc(c.title)+'</span><span class="delete" title="Delete">×</span>';
-  d.onclick=(ev)=>{if(ev.target.classList.contains('delete')){deleteChat(c.id);return}loadChat(c.id)};
-  el.appendChild(d);
- });
+function renderMessages(){
+  const chat=currentChat(); const box=$("messages"); box.replaceChildren();
+  if(!chat){$("welcome").style.display="block";return}
+  $("welcome").style.display=chat.messages.length?"none":"block";
+  const frag=document.createDocumentFragment();
+  chat.messages.forEach(m=>frag.appendChild(messageEl(m)));
+  box.appendChild(frag); requestAnimationFrame(()=>{$("content").scrollTop=$("content").scrollHeight})
 }
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function newChat(){currentId=null;document.getElementById('messages').innerHTML='';document.getElementById('welcome').style.display='block';document.getElementById('input').focus();renderChats()}
-function loadChat(id){const c=state.chats.find(x=>x.id===id);if(!c)return;currentId=id;document.getElementById('messages').innerHTML='';document.getElementById('welcome').style.display='none';c.messages.forEach(m=>addMessage(m.text,m.role));renderChats();scrollBottom()}
-function addMessage(text,role){const box=document.getElementById('messages'),row=document.createElement('div');row.className='row '+role;const av=document.createElement('div');av.className='avatar';av.textContent=role==='user'?(state.profile.name.trim()[0]||'G').toUpperCase():'🐝';const b=document.createElement('div');b.className='bubble';b.textContent=text;row.append(av,b);box.appendChild(row)}
-function ensureChat(title){if(currentId)return state.chats.find(c=>c.id===currentId);const c={id:crypto.randomUUID?crypto.randomUUID():Date.now().toString(),title:title.slice(0,42),messages:[]};state.chats.push(c);currentId=c.id;return c}
-function send(){const input=document.getElementById('input'),text=input.value.trim();if(!text)return;const c=ensureChat(text);c.messages.push({role:'user',text});addMessage(text,'user');document.getElementById('welcome').style.display='none';input.value='';resize(input);persist();scrollBottom();
- setTimeout(()=>{const reply=demoReply(text);c.messages.push({role:'assistant',text:reply});addMessage(reply,'assistant');persist();scrollBottom()},500)}
-function demoReply(t){let x=t.toLowerCase();if(x.includes('code')||x.includes('coding'))return"Sure 🐝 I can help with coding. Paste your code and tell me what you want it to do, and we can work through it step by step.";if(x.includes('story'))return"Absolutely! Give me the topic, characters, and style you want, and I’ll help you build the story.";if(x.includes('explain'))return"I can explain it simply. Send me the exact topic or concept, and I’ll break it into easy steps with examples.";return"Hey! 🐝 I’m Bee AI. This UI is working locally. To make me a real AI like ChatGPT, the next step is connecting a secure server-side AI API."; }
-function ask(t){document.getElementById('input').value=t;send()}
-function keySend(e){if(e.key==='Enter'&&!e.shiftKey&&state.enter){e.preventDefault();send()}}
-function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,160)+'px'}
-function scrollBottom(){const c=document.getElementById('content');setTimeout(()=>c.scrollTop=c.scrollHeight,30)}
-function deleteChat(id){state.chats=state.chats.filter(c=>c.id!==id);if(currentId===id)newChat();persist()}
-function clearChats(){if(confirm('Delete all saved chats?')){state.chats=[];newChat();persist();showToast('All chats cleared')}}
-function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open')}
-function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
-function openAccountModal(){document.getElementById('nameInput').value=state.profile.name==='Guest'?'':state.profile.name;document.getElementById('emailInput').value=state.profile.email==='Local account'?'':state.profile.email;document.getElementById('accountModal').classList.add('open')}
-function closeAccountModal(){document.getElementById('accountModal').classList.remove('open')}
-function saveProfile(){state.profile={name:document.getElementById('nameInput').value.trim()||'Guest',email:document.getElementById('emailInput').value.trim()||'Local account'};persist();closeAccountModal();showToast('Profile saved')}
-function toggleDark(){state.dark=!state.dark;document.documentElement.style.setProperty('--bg',state.dark?'#212121':'#f7f7f7');document.documentElement.style.setProperty('--side',state.dark?'#171717':'#ffffff');document.documentElement.style.setProperty('--text',state.dark?'#ececec':'#202020');document.body.style.color=state.dark?'#ececec':'#202020';persist()}
-function toggleEnter(){state.enter=!state.enter;persist()}
-function openSearch(){document.getElementById('searchBox').classList.toggle('open');if(document.getElementById('searchBox').classList.contains('open'))document.getElementById('searchInput').focus()}
-function searchChats(v){renderChats(v)}
-function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)}
-\n// Lightweight feature layer\nlet game=['','','']; game=Array(9).fill(''); let gameOver=false;\nfunction openGame(){document.getElementById('gameModal').classList.add('open');resetGame()}\nfunction closeGame(){document.getElementById('gameModal').classList.remove('open')}\nfunction resetGame(){game=Array(9).fill('');gameOver=false;document.getElementById('gameStatus').textContent='Your turn — you are X';renderGame()}\nfunction renderGame(){const g=document.getElementById('gameGrid');g.innerHTML='';game.forEach((v,i)=>{const b=document.createElement('button');b.className='cell';b.textContent=v;b.onclick=()=>playCell(i);g.appendChild(b)})}\nfunction winner(a){const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];return lines.some(([x,y,z])=>a[x]&&a[x]===a[y]&&a[y]===a[z])}\nfunction playCell(i){if(gameOver||game[i])return;game[i]='X';if(winner(game)){endGame('🎉 You win!');return}if(game.every(Boolean)){endGame('🤝 Draw!');return}renderGame();document.getElementById('gameStatus').textContent='Bee is thinking…';setTimeout(aiMove,180)}\nfunction aiMove(){if(gameOver)return;let empty=game.map((v,i)=>v?null:i).filter(i=>i!==null);if(!empty.length)return;let move=empty.find(i=>{const t=[...game];t[i]='O';return winner(t)})??empty.find(i=>{const t=[...game];t[i]='X';return winner(t)})??(game[4]===''?4:empty[Math.floor(Math.random()*empty.length)]);game[move]='O';if(winner(game)){endGame('🐝 Bee wins!');return}if(game.every(Boolean)){endGame('🤝 Draw!');return}document.getElementById('gameStatus').textContent='Your turn — you are X';renderGame()}\nfunction endGame(t){gameOver=true;document.getElementById('gameStatus').textContent=t;renderGame()}\nfunction currentChat(){return currentId?state.chats.find(c=>c.id===currentId):null}\nfunction copyChat(){const c=currentChat();if(!c||!c.messages.length){showToast('No chat to copy');return}navigator.clipboard?.writeText(c.messages.map(m=>(m.role==='user'?'You':'Bee AI')+': '+m.text).join('\\n\\n')).then(()=>showToast('Chat copied')).catch(()=>showToast('Copy unavailable'))}\nfunction downloadChat(){const c=currentChat();if(!c||!c.messages.length){showToast('No chat to export');return}const text=c.messages.map(m=>(m.role==='user'?'You':'Bee AI')+': '+m.text).join('\\n\\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=(c.title||'bee-ai-chat').replace(/[^a-z0-9]+/gi,'-').slice(0,50)+'.txt';a.click();URL.revokeObjectURL(a.href);showToast('Chat exported')}\napplyProfile();renderChats();
+function messageEl(m){
+  const row=document.createElement("div");row.className="message "+m.role;
+  if(m.role==="assistant"){const av=document.createElement("div");av.className="mini";av.textContent="🐝";row.appendChild(av)}
+  const b=document.createElement("div");b.className="bubble"; b.innerHTML=renderMarkdown(m.content);row.appendChild(b);return row
+}
+function renderMarkdown(t){
+  const safe=t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return safe.replace(/```(\w*)\n?([\s\S]*?)```/g,(a,lang,code)=>`<div class="codehead"><span>${lang||"code"}</span><button class="copy" onclick="copyText(this)">Copy</button></div><pre>${code.trim()}</pre>`).replace(/\*\*(.*?)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>");
+}
+function copyText(btn){const pre=btn.parentElement.nextElementSibling;navigator.clipboard?.writeText(pre.innerText);btn.textContent="Copied";setTimeout(()=>btn.textContent="Copy",900)}
+function ensureChat(text){
+  if(!state.current){const c={id:newId(),title:text.slice(0,42),messages:[]};state.chats.push(c);state.current=c.id}
+  return currentChat()
+}
+function addLocal(role,content){const c=currentChat();c.messages.push({role,content});save();renderMessages();renderChats()}
+async function send(){
+  const input=$("input"), text=input.value.trim();if(!text)return;
+  const c=ensureChat(text);c.messages.push({role:"user",content:text});input.value="";save();renderMessages();renderChats();
+  const row=document.createElement("div");row.className="message assistant typing";row.innerHTML='<div class="mini">🐝</div><div class="bubble dots"><span>●</span> <span>●</span> <span>●</span></div>'; $("messages").appendChild(row);$("content").scrollTop=$("content").scrollHeight;
+  try{
+    const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:c.messages})});
+    const data=await r.json();
+    row.remove();
+    if(!r.ok) throw new Error(data.error||"Request failed");
+    addLocal("assistant",data.reply);
+  }catch(e){
+    row.remove(); addLocal("assistant","⚠️ "+e.message);
+  }
+}
+function ask(t){$("input").value=t;send()}
+function loadChat(id){state.current=id;save();renderChats();renderMessages()}
+function newChat(){state.current=null;renderChats();renderMessages();$("input").focus()}
+function toggleTheme(){document.documentElement.dataset.theme=document.documentElement.dataset.theme==="light"?"":"light";if(document.documentElement.dataset.theme==="light"){document.body.style.background="#f4f4f4";document.body.style.color="#111"}else{document.body.style.background="var(--bg)";document.body.style.color="var(--text)"}}
+function toggleSidebar(){document.querySelector(".sidebar").style.display=getComputedStyle(document.querySelector(".sidebar")).display==="none"?"flex":"none"}
+function quickIdeas(){ask("Give me 10 useful and creative ideas I can try today.")}
+function chatText(){const c=currentChat();return c?c.messages.map(m=>(m.role==="user"?"You":"Bee AI")+": "+m.content).join("\n\n"):""}
+function copyChat(){const t=chatText();if(!t)return alert("Chat is empty.");navigator.clipboard?.writeText(t);alert("Chat copied!")}
+function exportChat(){const t=chatText();if(!t)return alert("Chat is empty.");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/plain"}));a.download="bee-ai-chat.txt";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$("input").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
+
+let board=[],over=false;
+function openGame(){$("gameModal").classList.add("show");resetGame()}
+function closeGame(){$("gameModal").classList.remove("show")}
+function resetGame(){board=Array(9).fill("");over=false;$("gameStatus").textContent="Your turn — you are X.";drawBoard()}
+function drawBoard(){const b=$("board");b.replaceChildren();board.forEach((v,i)=>{const c=document.createElement("button");c.className="cell";c.textContent=v;c.onclick=()=>move(i);b.appendChild(c)})}
+function winner(p){return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]].some(a=>a.every(i=>board[i]===p))}
+function move(i){if(over||board[i])return;board[i]="X";drawBoard();if(winner("X"))return end("You win! 🐝");if(board.every(Boolean))return end("Draw!");setTimeout(aiMove,180)}
+function aiMove(){if(over)return;const free=board.map((v,i)=>v?null:i).filter(i=>i!==null);const i=free[Math.floor(Math.random()*free.length)];board[i]="O";drawBoard();if(winner("O"))end("Bee AI wins!");else if(board.every(Boolean))end("Draw!")}
+function end(t){over=true;$("gameStatus").textContent=t}
+renderChats();renderMessages();
 </script>
 </body>
 </html>
