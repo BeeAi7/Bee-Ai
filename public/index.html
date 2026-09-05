@@ -1,60 +1,231 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bee AI</title>
+<meta name="theme-color" content="#080808">
 <style>
-:root{--bg:#111214;--panel:#18191d;--panel2:#202126;--text:#f4f4f5;--muted:#a4a6ad;--line:#303139;--yellow:#f6c945}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;height:100vh;overflow:hidden}
-button,input,textarea,select{font:inherit}button{cursor:pointer}.app{display:flex;height:100vh}
-.sidebar{width:280px;background:#0d0e10;border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column}
-.brand{display:flex;align-items:center;gap:10px;padding:8px 8px 18px;font-size:20px;font-weight:800}.bee{width:34px;height:34px;border-radius:11px;background:var(--yellow);display:grid;place-items:center;color:#111}
-.new{width:100%;padding:11px;border:1px solid #3b3c43;background:var(--panel2);color:var(--text);border-radius:11px;text-align:left;font-weight:700}
-.search{margin:12px 0}.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--text);outline:0}
-.section{font-size:12px;color:var(--muted);padding:7px}.chats{flex:1;overflow:auto}.chatrow{display:flex;gap:7px;padding:10px;border-radius:9px}.chatrow:hover{background:var(--panel2)}.chatrow span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.del{border:0;background:none;color:#888}
-.bottom{border-top:1px solid var(--line);padding-top:8px}.navbtn{width:100%;padding:10px;border:0;background:none;color:var(--text);text-align:left;border-radius:9px}.navbtn:hover{background:var(--panel2)}
-.main{flex:1;min-width:0;display:flex;flex-direction:column}.topbar{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px}.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:9px;padding:8px 10px}
-.messages{flex:1;overflow:auto;padding:30px 18px 140px}.welcome{max-width:900px;margin:7vh auto;text-align:center}.welcome h1{font-size:38px;margin:14px 0 8px}.welcome p{color:var(--muted)}
-.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:760px;margin:28px auto}.suggest{padding:16px;text-align:left;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:13px}.suggest b{display:block;margin-bottom:5px}.suggest small{color:var(--muted)}
-.msg{max-width:900px;margin:0 auto 24px;display:flex;gap:12px}.avatar{width:34px;height:34px;flex:none;border-radius:10px;background:var(--yellow);color:#111;display:grid;place-items:center;font-weight:800}.user .avatar{background:#34363e;color:#fff}.content{flex:1;min-width:0;line-height:1.65}.content pre{position:relative;background:#090a0c;border:1px solid var(--line);border-radius:11px;padding:38px 14px 14px;overflow:auto}.copy{position:absolute;right:8px;top:8px;background:#292b31;color:#ddd;border:1px solid #444;border-radius:7px;padding:5px 8px}.content code{font-family:ui-monospace,Consolas,monospace}.content :not(pre)>code{background:#25272d;padding:2px 5px;border-radius:5px}
-.composer{position:fixed;bottom:0;left:280px;right:0;padding:15px 18px 20px;background:linear-gradient(transparent,var(--bg) 28%)}.box{max-width:900px;margin:auto;background:var(--panel);border:1px solid #41434b;border-radius:16px;padding:10px;display:flex;gap:8px;align-items:flex-end}.box textarea{flex:1;background:transparent;border:0;outline:0;color:var(--text);resize:none;max-height:180px;padding:8px}.send{background:var(--yellow);border:0;color:#111;border-radius:11px;padding:10px 15px;font-weight:800}.hint{max-width:900px;margin:7px auto 0;color:#73757d;font-size:11px;text-align:center}
-.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:20px}.modal{width:min(680px,100%);max-height:85vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}.close{float:right;background:none;border:0;color:var(--muted);font-size:24px}.setting{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--line)}.setting small{display:block;color:var(--muted);margin-top:3px}
-@media(max-width:760px){.sidebar{position:fixed;z-index:5;left:-290px;top:0;bottom:0;transition:.2s}.sidebar.open{left:0}.composer{left:0}.suggestions{grid-template-columns:1fr}.welcome h1{font-size:30px}}
-</style></head><body>
-<div class="app"><aside class="sidebar" id="sidebar">
-<div class="brand"><div class="bee">🐝</div>Bee AI</div><button class="new" id="newBtn">＋ New chat</button>
-<div class="search"><input id="search" placeholder="Search chats"></div><div class="section">Recent chats</div><div class="chats" id="chatList"></div>
-<div class="bottom"><button class="navbtn" id="themeBtn">◐ Theme</button><button class="navbtn" id="settingsBtn">⚙ Settings</button></div>
-</aside><main class="main"><header class="topbar"><button class="iconbtn" id="menuBtn">☰</button><b id="title">New chat</b><button class="iconbtn" id="clearBtn">Clear</button></header>
-<section class="messages" id="messages"></section>
-<div class="composer"><div class="box"><textarea id="input" rows="1" placeholder="Message Bee AI..."></textarea><button class="send" id="send">Send</button></div><div class="hint">Bee AI can make mistakes. Check important information.</div></div></main></div>
-<div class="overlay" id="overlay"><div class="modal"><button class="close" id="close">×</button><h2>Settings</h2>
-<div class="setting"><div><b>Appearance</b><small>Dark or light mode.</small></div><select id="appearance"><option>dark</option><option>light</option></select></div>
-<div class="setting"><div><b>Enter to send</b><small>Enter sends; Shift+Enter makes a new line.</small></div><input id="enterSend" type="checkbox" checked></div>
-<div class="setting"><div><b>Home suggestions</b><small>Show prompt ideas on the home screen.</small></div><input id="showSuggestions" type="checkbox" checked></div>
-<div class="setting"><div><b>Compact mode</b><small>Use tighter message spacing.</small></div><input id="compact" type="checkbox"></div>
-<div class="setting"><div><b>Save chats</b><small>Keep chat history in this browser only.</small></div><input id="saveChats" type="checkbox" checked></div>
-<div class="setting"><div><b>Delete local chats</b><small>Remove all saved chats from this browser.</small></div><button class="iconbtn" id="wipe">Delete</button></div>
-</div></div>
-<script>
-const $=id=>document.getElementById(id);
-let chats=JSON.parse(localStorage.getItem("beeChats")||"[]"),current=null;
-let settings=JSON.parse(localStorage.getItem("beeSettings")||"{}");
-settings={appearance:settings.appearance||"dark",enterSend:settings.enterSend!==false,showSuggestions:settings.showSuggestions!==false,compact:!!settings.compact,saveChats:settings.saveChats!==false};
-const save=()=>{if(settings.saveChats)localStorage.setItem("beeChats",JSON.stringify(chats));};
-const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function md(s){s=esc(s);s=s.replace(/```([\w+-]*)\n?([\s\S]*?)```/g,(m,l,c)=>'<pre><button class="copy" data-code="'+encodeURIComponent(c)+'">Copy</button><code>'+c+'</code></pre>');s=s.replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*(.*?)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>");return s;}
-function render(){
- const box=$("messages");box.innerHTML="";
- if(!current||!current.messages.length){$("title").textContent="New chat";box.innerHTML='<div class="welcome"><div class="bee" style="margin:auto">🐝</div><h1>What can I help with?</h1><p>Ask Bee AI about coding, ideas, writing, learning and more.</p><div class="suggestions" id="suggestions"><button class="suggest"><b>💡 Brainstorm ideas</b><small>Give me creative ideas for a project</small></button><button class="suggest"><b>💻 Help me code</b><small>Build a website or fix my code</small></button><button class="suggest"><b>📚 Explain something</b><small>Explain a difficult topic simply</small></button><button class="suggest"><b>✍️ Write something</b><small>Draft, rewrite or improve text</small></button></div></div>';if(!settings.showSuggestions)$("suggestions").style.display="none";document.querySelectorAll(".suggest").forEach(b=>b.onclick=()=>{$("input").value=b.querySelector("small").textContent;$("input").focus()});return;}
- $("title").textContent=current.title;current.messages.forEach(m=>{const r=document.createElement("div");r.className="msg "+(m.role==="user"?"user":"assistant");r.innerHTML='<div class="avatar">'+(m.role==="user"?"U":"🐝")+'</div><div class="content">'+md(m.content)+'</div>';box.appendChild(r);});
- document.querySelectorAll(".copy").forEach(b=>b.onclick=()=>navigator.clipboard.writeText(decodeURIComponent(b.dataset.code)).then(()=>b.textContent="Copied!"));box.scrollTop=box.scrollHeight;
+*{box-sizing:border-box}
+:root{
+  --bg:#060606;--panel:#0b0b0c;--panel2:#101011;--line:rgba(255,255,255,.08);
+  --text:#f5f5f5;--muted:#9a9a9f;--yellow:#f5c518;--yellow2:#ffd84d;
+  --shadow:0 18px 70px rgba(0,0,0,.55);--radius:18px
 }
-function renderChats(){const q=$("search").value.toLowerCase();$("chatList").innerHTML="";chats.filter(c=>c.title.toLowerCase().includes(q)).slice().reverse().forEach(c=>{const r=document.createElement("div");r.className="chatrow";r.innerHTML="<span>"+esc(c.title)+"</span><button class=del>×</button>";r.onclick=e=>{if(!e.target.classList.contains("del")){current=c;render()}};r.querySelector(".del").onclick=e=>{e.stopPropagation();chats=chats.filter(x=>x.id!==c.id);if(current?.id===c.id)current=null;save();renderChats();render()};$("chatList").appendChild(r)})}
-async function send(){const input=$("input"),text=input.value.trim();if(!text)return;if(!current){current={id:Date.now(),title:text.slice(0,40),messages:[]};chats.push(current)}current.messages.push({role:"user",content:text});input.value="";render();renderChats();const thinking={role:"assistant",content:"Thinking…"};current.messages.push(thinking);render();
-try{const payload=current.messages.filter(m=>m!==thinking);const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:payload})});const data=await r.json().catch(()=>({error:"Invalid server response"}));current.messages=current.messages.filter(m=>m!==thinking);if(!r.ok)throw new Error(data.error||("Server error "+r.status));current.messages.push({role:"assistant",content:data.reply});save();render();renderChats()}catch(e){current.messages=current.messages.filter(m=>m!==thinking);current.messages.push({role:"assistant",content:"⚠️ **Bee AI error**\n\n"+e.message});save();render()}}
-$("send").onclick=send;$("newBtn").onclick=()=>{current=null;render()};$("clearBtn").onclick=()=>{if(current){current.messages=[];save();render()}};$("search").oninput=renderChats;$("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
-$("settingsBtn").onclick=()=>{$("overlay").style.display="flex";$("appearance").value=settings.appearance;$("enterSend").checked=settings.enterSend;$("showSuggestions").checked=settings.showSuggestions;$("compact").checked=settings.compact;$("saveChats").checked=settings.saveChats};$("close").onclick=()=>$("overlay").style.display="none";
-["appearance","enterSend","showSuggestions","compact","saveChats"].forEach(id=>$(id).onchange=()=>{settings[id]=$(id).type==="checkbox"?$(id).checked:$(id).value;apply()});
-$("themeBtn").onclick=()=>{settings.appearance=settings.appearance==="dark"?"light":"dark";apply()};$("wipe").onclick=()=>{localStorage.removeItem("beeChats");chats=[];current=null;renderChats();render()};
-$("input").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&settings.enterSend){e.preventDefault();send()}});
-function apply(){if(settings.appearance==="light"){document.documentElement.style.setProperty("--bg","#f7f7f8");document.documentElement.style.setProperty("--panel","#fff");document.documentElement.style.setProperty("--panel2","#eeeef0");document.documentElement.style.setProperty("--text","#17181b");document.documentElement.style.setProperty("--muted","#666");document.documentElement.style.setProperty("--line","#ddd")}else{document.documentElement.style.setProperty("--bg","#111214");document.documentElement.style.setProperty("--panel","#18191d");document.documentElement.style.setProperty("--panel2","#202126");document.documentElement.style.setProperty("--text","#f4f4f5");document.documentElement.style.setProperty("--muted","#a4a6ad");document.documentElement.style.setProperty("--line","#303139")}document.body.style.fontSize=settings.compact?"14px":"16px";localStorage.setItem("beeSettings",JSON.stringify(settings));render()}apply();renderChats();render();
-</script></body></html>
+html,body{margin:0;height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+body:before,body:after{content:"";position:fixed;inset:auto;pointer-events:none;z-index:-1}
+body:before{width:55vw;height:55vw;left:-20vw;top:-25vw;background:radial-gradient(circle,rgba(245,197,24,.10),transparent 62%);filter:blur(20px)}
+body:after{width:50vw;height:50vw;right:-22vw;bottom:-28vw;background:radial-gradient(circle,rgba(255,255,255,.055),transparent 64%);filter:blur(28px)}
+.app{height:100%;display:flex;position:relative;background:
+ radial-gradient(900px 500px at 70% 0%,rgba(255,255,255,.025),transparent 70%),
+ linear-gradient(135deg,#050505,#090909 50%,#050505)}
+.app:before{content:"";position:absolute;inset:0;opacity:.18;background-image:radial-gradient(rgba(255,255,255,.18) .6px,transparent .6px);background-size:24px 24px;mask-image:linear-gradient(to bottom,black,transparent 80%);pointer-events:none}
+.sidebar{width:280px;border-right:1px solid var(--line);background:rgba(7,7,7,.84);backdrop-filter:blur(22px);display:flex;flex-direction:column;padding:14px;z-index:10}
+.brand{display:flex;align-items:center;gap:11px;padding:9px 10px 18px}
+.logo{width:39px;height:39px;border-radius:13px;background:linear-gradient(145deg,var(--yellow2),#d7a900);display:grid;place-items:center;box-shadow:0 8px 28px rgba(245,197,24,.16)}
+.logo svg{width:25px;height:25px;fill:#111}
+.brand b{font-size:18px;letter-spacing:-.5px}.brand span{font-size:11px;color:var(--muted);display:block;margin-top:2px}
+.new{width:100%;border:1px solid rgba(245,197,24,.28);background:rgba(245,197,24,.10);color:#ffe78c;border-radius:13px;padding:11px 13px;font-weight:700;display:flex;align-items:center;gap:9px;transition:.2s}
+.new:hover{background:rgba(245,197,24,.17);transform:translateY(-1px)}
+.search{margin:12px 0;position:relative}.search input{width:100%;padding:10px 12px 10px 36px;border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--text);border-radius:12px;outline:none}.search input:focus{border-color:rgba(245,197,24,.35)}.search span{position:absolute;left:12px;top:9px;color:#777}
+.section{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.12em;padding:9px 9px 7px}
+.chats{overflow:auto;flex:1}.chat-item{display:flex;align-items:center;gap:8px;padding:10px 10px;border-radius:11px;color:#bdbdc2;margin:2px 0;cursor:pointer}.chat-item:hover{background:rgba(255,255,255,.045);color:white}.chat-item.active{background:rgba(245,197,24,.09);color:#fff}.chat-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-size:13px}.more{opacity:.35;background:none;border:0;color:#fff;padding:3px}.bottom{border-top:1px solid var(--line);padding-top:10px;margin-top:8px}.side-btn{width:100%;background:none;border:0;color:#aaa;padding:10px;border-radius:10px;text-align:left}.side-btn:hover{background:rgba(255,255,255,.04);color:#fff}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;position:relative}
+.topbar{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.045);background:rgba(5,5,5,.35);backdrop-filter:blur(16px);z-index:5}
+.lefttop{display:flex;align-items:center;gap:10px}.mobile{display:none}.model-pill{font-size:12px;color:#aaa;border:1px solid var(--line);padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.025)}.status{display:flex;align-items:center;gap:7px;font-size:12px;color:#85858a}.dot{width:7px;height:7px;border-radius:50%;background:#77d68b;box-shadow:0 0 12px #77d68b}
+.content{flex:1;overflow:auto;scroll-behavior:smooth}.inner{max-width:900px;margin:0 auto;padding:45px 22px 150px}
+.welcome{text-align:center;padding:65px 0 34px}.welcome .biglogo{width:68px;height:68px;margin:auto;border-radius:22px;background:linear-gradient(145deg,#ffe36c,#e0ad0a);display:grid;place-items:center;box-shadow:0 20px 60px rgba(245,197,24,.12)}.welcome .biglogo svg{width:42px;height:42px;fill:#111}.welcome h1{font-size:42px;letter-spacing:-1.7px;margin:20px 0 8px}.welcome p{color:#8e8e93;margin:0;font-size:15px}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:650px;margin:28px auto}.card{border:1px solid var(--line);background:rgba(255,255,255,.026);border-radius:16px;padding:15px;text-align:left;color:#d0d0d4;transition:.2s}.card:hover{border-color:rgba(245,197,24,.25);background:rgba(245,197,24,.045);transform:translateY(-2px)}.card b{font-size:13px;display:block;margin-bottom:5px}.card span{font-size:12px;color:#777}
+.msg{display:flex;gap:13px;margin:25px 0;align-items:flex-start}.avatar{width:34px;height:34px;flex:0 0 34px;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:800}.ai{background:rgba(245,197,24,.13);color:#f5cf3d}.user{background:#1a1a1c;color:#ddd}.bubble{max-width:calc(100% - 50px);line-height:1.65;font-size:15px;color:#e8e8ea}.bubble p{margin:0 0 10px}.bubble p:last-child{margin-bottom:0}.bubble ul,.bubble ol{padding-left:22px}.bubble code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(255,255,255,.08);padding:2px 5px;border-radius:5px;font-size:.9em}.codewrap{margin:12px 0;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#080808}.codehead{display:flex;justify-content:space-between;align-items:center;padding:8px 11px;color:#777;font-size:11px;border-bottom:1px solid var(--line)}.copy{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#aaa;border-radius:8px;padding:5px 8px}.copy:hover{color:white}.codewrap pre{margin:0;padding:14px;overflow:auto;color:#ddd;font-size:12.5px;line-height:1.6}
+.typing{display:flex;gap:4px;padding:10px 0}.typing i{width:6px;height:6px;border-radius:50%;background:#777;animation:b .9s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes b{50%{transform:translateY(-4px);opacity:.45}}
+.composer-area{position:absolute;left:0;right:0;bottom:0;padding:18px 20px 20px;background:linear-gradient(transparent,rgba(5,5,5,.96) 28%);pointer-events:none}.composer{max-width:900px;margin:auto;pointer-events:auto;border:1px solid rgba(255,255,255,.10);background:rgba(13,13,14,.88);backdrop-filter:blur(18px);border-radius:20px;box-shadow:var(--shadow);padding:9px}.composer textarea{width:100%;min-height:44px;max-height:160px;resize:none;border:0;outline:0;background:transparent;color:white;padding:11px 12px;font-size:14px}.composer-row{display:flex;align-items:center;justify-content:space-between;padding:3px 4px 2px 8px}.hint{font-size:11px;color:#666}.send{width:38px;height:38px;border:0;border-radius:12px;background:var(--yellow);color:#101010;font-weight:900}.send:hover{background:var(--yellow2)}.send:disabled{opacity:.35;cursor:not-allowed}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:20;display:none}.overlay.show{display:block}.settings{position:fixed;right:18px;top:70px;width:330px;background:#0d0d0e;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px;z-index:30;display:none}.settings.show{display:block}.settings h3{margin:3px 0 15px}.setting{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.setting small{display:block;color:#777;margin-top:3px}.switch{width:42px;height:24px;border-radius:99px;background:#262629;border:0;position:relative}.switch:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#777;top:3px;left:3px;transition:.2s}.switch.on{background:rgba(245,197,24,.35)}.switch.on:after{left:21px;background:var(--yellow)}
+.light{--bg:#f5f5f5;--panel:#fff;--panel2:#eee;--line:rgba(0,0,0,.10);--text:#151515;--muted:#6d6d72}.light .app{background:#f4f4f4}.light .sidebar,.light .topbar,.light .composer{background:rgba(255,255,255,.85)}.light .bubble{color:#222}.light .composer textarea{color:#111}.light .settings{background:#fff;color:#111}.light .codewrap{background:#111;color:#ddd}
+.compact .msg{margin:15px 0}.compact .inner{padding-top:25px}.compact .welcome{padding:30px 0 20px}
+@media(max-width:800px){.sidebar{position:fixed;left:-300px;top:0;bottom:0;transition:.25s;box-shadow:20px 0 60px rgba(0,0,0,.5)}.sidebar.open{left:0}.mobile{display:block;border:0;background:none;color:#ddd;font-size:20px}.welcome h1{font-size:34px}.cards{grid-template-columns:1fr}.settings{right:10px;left:10px;width:auto}}
+
+/* === Bee AI 4.2: dark liquid-glass motion layer === */
+:root{
+  --glass:rgba(255,255,255,.045);
+  --glass-strong:rgba(255,255,255,.065);
+  --glass-border:rgba(255,255,255,.105);
+  --glass-highlight:rgba(255,255,255,.13);
+}
+body{color-scheme:dark}
+.app{isolation:isolate;overflow:hidden}
+.app:after{
+  content:"";position:absolute;inset:-20%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(34% 30% at 15% 18%,rgba(245,197,24,.085),transparent 72%),
+    radial-gradient(30% 34% at 84% 22%,rgba(255,255,255,.045),transparent 70%),
+    radial-gradient(35% 35% at 70% 88%,rgba(245,197,24,.045),transparent 70%);
+  filter:blur(42px);animation:liquidDrift 18s ease-in-out infinite alternate;
+}
+@keyframes glassSheen{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}} @keyframes liquidDrift{
+  0%{transform:translate3d(-2%,0,0) scale(1)}
+  50%{transform:translate3d(2%,-1%,0) scale(1.04)}
+  100%{transform:translate3d(-1%,2%,0) scale(1.02)}
+}
+.sidebar,.topbar,.composer,.settings{
+  background:linear-gradient(145deg,rgba(20,20,21,.72),rgba(8,8,9,.62));
+  border-color:var(--glass-border);
+  backdrop-filter:blur(24px) saturate(135%);
+  -webkit-backdrop-filter:blur(24px) saturate(135%);
+}
+.sidebar{box-shadow:inset -1px 0 rgba(255,255,255,.035),20px 0 70px rgba(0,0,0,.16)}
+.topbar{box-shadow:0 10px 45px rgba(0,0,0,.12)}
+.composer{
+  border:1px solid var(--glass-border);
+  box-shadow:0 20px 80px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.07);
+}
+.new,.card,.model-pill,.search input,.chat-item,.side-btn,.switch,.copy{
+  backdrop-filter:blur(16px) saturate(125%);
+  -webkit-backdrop-filter:blur(16px) saturate(125%);
+}
+.card{
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  border-color:rgba(255,255,255,.09);
+  box-shadow:inset 0 1px rgba(255,255,255,.045),0 10px 35px rgba(0,0,0,.12);
+}
+.card:hover{
+  border-color:rgba(245,197,24,.30);
+  box-shadow:inset 0 1px rgba(255,255,255,.08),0 15px 45px rgba(245,197,24,.07);
+}
+.welcome{animation:riseIn .7s cubic-bezier(.2,.75,.2,1) both}
+.welcome .biglogo{animation:beeFloat 4s ease-in-out infinite}
+.msg{animation:messageIn .32s cubic-bezier(.2,.75,.2,1) both}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes messageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes beeFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
+.logo{animation:logoPulse 5s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{box-shadow:0 8px 28px rgba(245,197,24,.13)}50%{box-shadow:0 12px 38px rgba(245,197,24,.25)}}
+.send{transition:transform .18s ease,filter .18s ease}
+.send:hover:not(:disabled){transform:translateY(-2px) scale(1.035);filter:brightness(1.06)}
+.chat-item,.new,.card,.side-btn,.copy,.model-pill{transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
+.chat-item:hover{transform:translateX(2px)}
+.settings{animation:panelIn .25s ease both}
+@keyframes panelIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+.typing i{animation:typingDot 1s ease-in-out infinite}
+@keyframes typingDot{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(-5px);opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 64 64"><path d="M18 20h28v8H18zM14 30h36v8H14zM20 40h24v8H20zM27 12h10v40H27z"/></svg></div>
+    <div><b>Bee AI</b><span>Your smart workspace</span></div>
+  </div>
+  <button class="new" id="newBtn">＋ New chat</button>
+  <div class="search"><span>⌕</span><input id="search" placeholder="Search chats…"></div>
+  <div class="section">Recent</div>
+  <div class="chats" id="chatList"></div>
+  <div class="bottom">
+    <button class="side-btn" id="settingsBtn">⚙ Settings</button>
+    <button class="side-btn" id="clearBtn">⌫ Clear local chats</button>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar" style="position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.035) 45%,transparent 70%);transform:translateX(-120%);animation:glassSheen 9s ease-in-out infinite"></div><div class="lefttop" style="position:relative"><button class="mobile" id="menuBtn">☰</button><div class="model-pill">Bee AI • Gemini</div></div>
+    <div class="status"><i class="dot"></i> Online</div>
+  </header>
+  <section class="content" id="content"><div class="inner" id="messages"></div></section>
+  <div class="composer-area">
+    <div class="composer">
+      <textarea id="input" placeholder="Message Bee AI…" rows="1"></textarea>
+      <div class="composer-row"><span class="hint">Enter to send • Shift+Enter for new line</span><button class="send" id="sendBtn">↑</button></div>
+    </div>
+  </div>
+</main>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="settings" id="settings">
+  <h3>Settings</h3>
+  <div class="setting"><div>Dark mode<small>Keep Bee AI in its dark workspace.</small></div><button class="switch on" id="darkSwitch"></button></div>
+  <div class="setting"><div>Enter to send<small>Press Enter to send a message.</small></div><button class="switch on" id="enterSwitch"></button></div>
+  <div class="setting"><div>Compact mode<small>Reduce spacing in long chats.</small></div><button class="switch" id="compactSwitch"></button></div>
+  <div class="setting"><div>Local chat history<small>Chats stay in this browser.</small></div><button class="switch on" id="localSwitch"></button></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const state={chats:JSON.parse(localStorage.getItem("beeChats")||"[]"),current:null,enter:true,dark:true,compact:false,local:true};
+const escapeHtml=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function md(text){
+  let s=escapeHtml(text);
+  const blocks=[];
+  s=s.replace(/```([\w+-]*)\n?([\s\S]*?)```/g,(_,lang,code)=>{const id=blocks.length;blocks.push({lang:lang||"code",code});return `@@CODE${id}@@`});
+  s=s.replace(/`([^`]+)`/g,"<code>$1</code>");
+  s=s.replace(/^### (.*)$/gm,"<h3>$1</h3>").replace(/^## (.*)$/gm,"<h2>$1</h2>").replace(/^# (.*)$/gm,"<h1>$1</h1>");
+  s=s.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\*(.*?)\*/g,"<em>$1</em>");
+  s=s.replace(/^\s*[-*] (.*)$/gm,"<li>$1</li>");
+  s=s.replace(/(<li>.*<\/li>\n?)+/gs,m=>"<ul>"+m+"</ul>");
+  s=s.split(/\n{2,}/).map(x=>x.startsWith("<h")||x.startsWith("<ul>")?x:`<p>${x.replace(/\n/g,"<br>")}</p>`).join("");
+  blocks.forEach((b,i)=>{s=s.replace(`@@CODE${i}@@`,`<div class="codewrap"><div class="codehead"><span>${escapeHtml(b.lang)}</span><button class="copy" data-code="${encodeURIComponent(b.code)}">Copy</button></div><pre><code>${b.code}</code></pre></div>`)});
+  return s;
+}
+function save(){if(state.local)localStorage.setItem("beeChats",JSON.stringify(state.chats))}
+function titleOf(c){return c.title||c.messages.find(x=>x.role==="user")?.content?.slice(0,35)||"New chat"}
+function renderList(filter=""){
+  const list=$("#chatList");list.innerHTML="";
+  state.chats.filter(c=>titleOf(c).toLowerCase().includes(filter.toLowerCase())).slice().reverse().forEach(c=>{
+    const d=document.createElement("div");d.className="chat-item"+(c.id===state.current?" active":"");
+    d.innerHTML=`<span>◌</span><span class="chat-title">${escapeHtml(titleOf(c))}</span><button class="more" title="Delete">×</button>`;
+    d.onclick=e=>{if(e.target.closest(".more"))return;openChat(c.id)};
+    d.querySelector(".more").onclick=e=>{e.stopPropagation();state.chats=state.chats.filter(x=>x.id!==c.id);if(state.current===c.id)state.current=null;save();renderList();renderMessages()};
+    list.appendChild(d);
+  });
+}
+function openChat(id){state.current=id;renderList();renderMessages();$("#sidebar").classList.remove("open")}
+function newChat(){state.current=null;renderList();renderMessages();$("#input").focus()}
+function currentChat(){return state.chats.find(c=>c.id===state.current)}
+function renderMessages(){
+  const box=$("#messages");box.innerHTML="";
+  const c=currentChat();
+  if(!c){box.innerHTML=`<div class="welcome"><div class="biglogo"><svg viewBox="0 0 64 64"><path d="M18 20h28v8H18zM14 30h36v8H14zM20 40h24v8H20zM27 12h10v40H27z"/></svg></div><h1>How can I help?</h1><p>Fast, clean and focused. Welcome to your Bee AI workspace.</p><div class="cards"><button class="card" data-p="Help me code a website"><b>💻 Help me code</b><span>Build, debug or explain code.</span></button><button class="card" data-p="Explain this topic simply"><b>🧠 Explain something</b><span>Make difficult topics easy.</span></button><button class="card" data-p="Give me 10 creative project ideas"><b>✨ Brainstorm ideas</b><span>Turn a blank page into a plan.</span></button><button class="card" data-p="Write a professional message for me"><b>✍ Write something</b><span>Draft and polish your text.</span></button></div></div>`;return}
+  c.messages.forEach(m=>{const row=document.createElement("div");row.className="msg";row.innerHTML=`<div class="avatar ${m.role==="assistant"?"ai":"user"}">${m.role==="assistant"?"🐝":"You"}</div><div class="bubble">${m.role==="assistant"?md(m.content):escapeHtml(m.content).replace(/\n/g,"<br>")}</div>`;box.appendChild(row)});
+  box.querySelectorAll(".copy").forEach(b=>b.onclick=async()=>{await navigator.clipboard.writeText(decodeURIComponent(b.dataset.code));b.textContent="Copied ✓";setTimeout(()=>b.textContent="Copy",1200)});
+  requestAnimationFrame(()=>{$(".content").scrollTop=$(".content").scrollHeight});
+}
+async function send(){
+  const input=$("#input"), text=input.value.trim(); if(!text)return;
+  let c=currentChat();
+  if(!c){c={id:crypto.randomUUID(),title:text.slice(0,35),messages:[]};state.chats.push(c);state.current=c.id}
+  c.messages.push({role:"user",content:text});input.value="";autoGrow();renderList();renderMessages();
+  const typing=document.createElement("div");typing.className="msg";typing.id="typing";typing.innerHTML='<div class="avatar ai">🐝</div><div class="bubble"><div class="typing"><i></i><i></i><i></i></div></div>';$("#messages").appendChild(typing);$(".content").scrollTop=$(".content").scrollHeight;
+  $("#sendBtn").disabled=true;
+  try{
+    const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:c.messages})});
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(data.error||`Request failed (${r.status})`);
+    c.messages.push({role:"assistant",content:data.reply});save();renderMessages();
+  }catch(e){
+    $("#typing")?.remove();
+    c.messages.push({role:"assistant",content:`⚠️ **Bee AI error**\n\n${e.message}`});save();renderMessages();
+  }finally{$("#sendBtn").disabled=false;input.focus()}
+}
+function autoGrow(){const x=$("#input");x.style.height="auto";x.style.height=Math.min(x.scrollHeight,160)+"px"}
+$("#newBtn").onclick=newChat;$("#sendBtn").onclick=send;$("#search").oninput=e=>renderList(e.target.value);
+$("#input").oninput=autoGrow;$("#input").onkeydown=e=>{if(e.key==="Enter"&&state.enter&&!e.shiftKey){e.preventDefault();send()}};
+document.addEventListener("click",e=>{const p=e.target.closest(".card")?.dataset.p;if(p){$("#input").value=p;send()}});
+$("#menuBtn").onclick=()=>$("#sidebar").classList.add("open");
+$("#settingsBtn").onclick=()=>{$("#settings").classList.toggle("show");$("#overlay").classList.toggle("show")};
+$("#overlay").onclick=()=>{$("#settings").classList.remove("show");$("#overlay").classList.remove("show")};
+function toggle(btn,on,fn){btn.classList.toggle("on",on);fn(on)}
+$("#darkSwitch").onclick=()=>{state.dark=!state.dark;document.body.classList.toggle("light",!state.dark);toggle($("#darkSwitch"),state.dark,()=>{})};
+$("#enterSwitch").onclick=()=>{state.enter=!state.enter;toggle($("#enterSwitch"),state.enter,()=>{})};
+$("#compactSwitch").onclick=()=>{state.compact=!state.compact;document.body.classList.toggle("compact",state.compact);toggle($("#compactSwitch"),state.compact,()=>{})};
+$("#localSwitch").onclick=()=>{state.local=!state.local;toggle($("#localSwitch"),state.local,()=>{if(!state.local)localStorage.removeItem("beeChats")})};
+$("#clearBtn").onclick=()=>{if(confirm("Delete all Bee AI chats stored in this browser?")){state.chats=[];state.current=null;save();renderList();renderMessages()}};
+renderList();renderMessages();
+</script>
+</body>
+</html>
