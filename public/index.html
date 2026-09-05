@@ -15,7 +15,7 @@
 html,body{margin:0;height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
 button,input,textarea{font:inherit}
 button{cursor:pointer}
-body:before,body:after{content:"";position:fixed;inset:auto;pointer-events:none;z-index:-1}
+body:before,body:after{display:none!important}
 body:before{width:55vw;height:55vw;left:-20vw;top:-25vw;background:radial-gradient(circle,rgba(245,197,24,.10),transparent 62%);filter:blur(20px)}
 body:after{width:50vw;height:50vw;right:-22vw;bottom:-28vw;background:radial-gradient(circle,rgba(255,255,255,.055),transparent 64%);filter:blur(28px)}
 .app{height:100%;display:flex;position:relative;background:
@@ -38,9 +38,9 @@ body:after{width:50vw;height:50vw;right:-22vw;bottom:-28vw;background:radial-gra
 .content{flex:1;overflow:auto;scroll-behavior:smooth}.inner{max-width:900px;margin:0 auto;padding:45px 22px 150px}
 .welcome{text-align:center;padding:65px 0 34px}.welcome .biglogo{width:68px;height:68px;margin:auto;border-radius:22px;background:linear-gradient(145deg,#ffe36c,#e0ad0a);display:grid;place-items:center;box-shadow:0 20px 60px rgba(245,197,24,.12)}.welcome .biglogo svg{width:42px;height:42px;fill:#111}.welcome h1{font-size:42px;letter-spacing:-1.7px;margin:20px 0 8px}.welcome p{color:#8e8e93;margin:0;font-size:15px}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:650px;margin:28px auto}.card{border:1px solid var(--line);background:rgba(255,255,255,.026);border-radius:16px;padding:15px;text-align:left;color:#d0d0d4;transition:.2s}.card:hover{border-color:rgba(245,197,24,.25);background:rgba(245,197,24,.045);transform:translateY(-2px)}.card b{font-size:13px;display:block;margin-bottom:5px}.card span{font-size:12px;color:#777}
 .msg{display:flex;gap:13px;margin:25px 0;align-items:flex-start}.avatar{width:34px;height:34px;flex:0 0 34px;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:800}.ai{background:rgba(245,197,24,.13);color:#f5cf3d}.user{background:#1a1a1c;color:#ddd}.bubble{max-width:calc(100% - 50px);line-height:1.65;font-size:15px;color:#e8e8ea}.bubble p{margin:0 0 10px}.bubble p:last-child{margin-bottom:0}.bubble ul,.bubble ol{padding-left:22px}.bubble code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(255,255,255,.08);padding:2px 5px;border-radius:5px;font-size:.9em}.codewrap{margin:12px 0;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#080808}.codehead{display:flex;justify-content:space-between;align-items:center;padding:8px 11px;color:#777;font-size:11px;border-bottom:1px solid var(--line)}.copy{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#aaa;border-radius:8px;padding:5px 8px}.copy:hover{color:white}.codewrap pre{margin:0;padding:14px;overflow:auto;color:#ddd;font-size:12.5px;line-height:1.6}
-.typing{display:flex;gap:4px;padding:10px 0}.typing i{width:6px;height:6px;border-radius:50%;background:#777;animation:b .9s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes b{50%{transform:translateY(-4px);opacity:.45}}
+.typing{display:flex;gap:4px;padding:10px 0}.typing i{animation:none!important;width:6px;height:6px;border-radius:50%;background:#777;}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 .composer-area{position:absolute;left:0;right:0;bottom:0;padding:18px 20px 20px;background:linear-gradient(transparent,rgba(5,5,5,.96) 28%);pointer-events:none}.composer{max-width:900px;margin:auto;pointer-events:auto;border:1px solid rgba(255,255,255,.10);background:rgba(13,13,14,.88);backdrop-filter:blur(18px);border-radius:20px;box-shadow:var(--shadow);padding:9px}.composer textarea{width:100%;min-height:44px;max-height:160px;resize:none;border:0;outline:0;background:transparent;color:white;padding:11px 12px;font-size:14px}.composer-row{display:flex;align-items:center;justify-content:space-between;padding:3px 4px 2px 8px}.hint{font-size:11px;color:#666}.send{width:38px;height:38px;border:0;border-radius:12px;background:var(--yellow);color:#101010;font-weight:900}.send:hover{background:var(--yellow2)}.send:disabled{opacity:.35;cursor:not-allowed}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:20;display:none}.overlay.show{display:block}.settings{position:fixed;right:18px;top:70px;width:330px;background:#0d0d0e;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px;z-index:30;display:none}.settings.show{display:block}.settings h3{margin:3px 0 15px}.setting{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.setting small{display:block;color:#777;margin-top:3px}.switch{width:42px;height:24px;border-radius:99px;background:#262629;border:0;position:relative}.switch:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#777;top:3px;left:3px;transition:.2s}.switch.on{background:rgba(245,197,24,.35)}.switch.on:after{left:21px;background:var(--yellow)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:none;z-index:20;display:none}.overlay.show{display:block}.settings{position:fixed;right:18px;top:70px;width:330px;background:#0d0d0e;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px;z-index:30;display:none}.settings.show{display:block}.settings h3{margin:3px 0 15px}.setting{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.setting small{display:block;color:#777;margin-top:3px}.switch{width:42px;height:24px;border-radius:99px;background:#262629;border:0;position:relative}.switch:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#777;top:3px;left:3px;transition:.2s}.switch.on{background:rgba(245,197,24,.35)}.switch.on:after{left:21px;background:var(--yellow)}
 .light{--bg:#f5f5f5;--panel:#fff;--panel2:#eee;--line:rgba(0,0,0,.10);--text:#151515;--muted:#6d6d72}.light .app{background:#f4f4f4}.light .sidebar,.light .topbar,.light .composer{background:rgba(255,255,255,.85)}.light .bubble{color:#222}.light .composer textarea{color:#111}.light .settings{background:#fff;color:#111}.light .codewrap{background:#111;color:#ddd}
 .compact .msg{margin:15px 0}.compact .inner{padding-top:25px}.compact .welcome{padding:30px 0 20px}
 @media(max-width:800px){.sidebar{position:fixed;left:-300px;top:0;bottom:0;transition:.25s;box-shadow:20px 0 60px rgba(0,0,0,.5)}.sidebar.open{left:0}.mobile{display:block;border:0;background:none;color:#ddd;font-size:20px}.welcome h1{font-size:34px}.cards{grid-template-columns:1fr}.settings{right:10px;left:10px;width:auto}}
@@ -60,13 +60,9 @@ body{color-scheme:dark}
     radial-gradient(34% 30% at 15% 18%,rgba(245,197,24,.085),transparent 72%),
     radial-gradient(30% 34% at 84% 22%,rgba(255,255,255,.045),transparent 70%),
     radial-gradient(35% 35% at 70% 88%,rgba(245,197,24,.045),transparent 70%);
-  filter:blur(42px);animation:liquidDrift 18s ease-in-out infinite alternate;
+  filter:blur(42px);
 }
-@keyframes glassSheen{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}} @keyframes liquidDrift{
-  0%{transform:translate3d(-2%,0,0) scale(1)}
-  50%{transform:translate3d(2%,-1%,0) scale(1.04)}
-  100%{transform:translate3d(-1%,2%,0) scale(1.02)}
-}
+ 
 .sidebar,.topbar,.composer,.settings{
   background:linear-gradient(145deg,rgba(20,20,21,.72),rgba(8,8,9,.62));
   border-color:var(--glass-border);
@@ -92,22 +88,22 @@ body{color-scheme:dark}
   border-color:rgba(245,197,24,.30);
   box-shadow:inset 0 1px rgba(255,255,255,.08),0 15px 45px rgba(245,197,24,.07);
 }
-.welcome{animation:riseIn .7s cubic-bezier(.2,.75,.2,1) both}
-.welcome .biglogo{animation:beeFloat 4s ease-in-out infinite}
-.msg{animation:messageIn .32s cubic-bezier(.2,.75,.2,1) both}
-@keyframes riseIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
-@keyframes messageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-@keyframes beeFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
-.logo{animation:logoPulse 5s ease-in-out infinite}
-@keyframes logoPulse{0%,100%{box-shadow:0 8px 28px rgba(245,197,24,.13)}50%{box-shadow:0 12px 38px rgba(245,197,24,.25)}}
+.welcome{}
+.welcome .biglogo{}
+.msg{}
+
+
+
+.logo{}
+
 .send{transition:transform .18s ease,filter .18s ease}
 .send:hover:not(:disabled){transform:translateY(-2px) scale(1.035);filter:brightness(1.06)}
 .chat-item,.new,.card,.side-btn,.copy,.model-pill{transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
 .chat-item:hover{transform:translateX(2px)}
-.settings{animation:panelIn .25s ease both}
-@keyframes panelIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
-.typing i{animation:typingDot 1s ease-in-out infinite}
-@keyframes typingDot{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(-5px);opacity:1}}
+.settings{}
+
+.typing i{animation:none!important;}
+
 @media (prefers-reduced-motion:reduce){
   *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
@@ -133,7 +129,7 @@ body{color-scheme:dark}
 
 <main class="main">
   <header class="topbar" style="position:relative;overflow:hidden">
-    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.035) 45%,transparent 70%);transform:translateX(-120%);animation:glassSheen 9s ease-in-out infinite"></div><div class="lefttop" style="position:relative"><button class="mobile" id="menuBtn">☰</button><div class="model-pill">Bee AI • Gemini</div></div>
+    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.035) 45%,transparent 70%);transform:translateX(-120%);"></div><div class="lefttop" style="position:relative"><button class="mobile" id="menuBtn">☰</button><div class="model-pill">Bee AI • Gemini</div></div>
     <div class="status"><i class="dot"></i> Online</div>
   </header>
   <section class="content" id="content"><div class="inner" id="messages"></div></section>

@@ -38,3 +38,5 @@ Never put your real API key in frontend files or GitHub.
 - Visual style remains the same dark liquid-glass design.
 
 - 4.4 ultra-light mode: decorative background animation removed, liquid-glass blur removed from major panels, static dark glass surfaces retained for a much lighter GPU load.
+
+- 4.5 ULTRA FAST: all decorative animations, animated background, radial glow layers, and blur/glass filters removed. Uses simple opaque dark panels for maximum browser performance.
