@@ -5,10 +5,130 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bee AI</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#111;color:#f5c542;font-family:Arial,sans-serif;height:100vh;display:flex}
-main{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-h1{font-size:48px;margin:0 0 10px}p{color:#ddd;font-size:18px}small{color:#888}
+:root{--bg:#0b0b0b;--panel:#111;--panel2:#171717;--text:#f5f5f5;--muted:#9b9b9b;--line:#2a2a2a;--bee:#ffd21f;--bubble:#202020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;height:100vh;overflow:hidden}
+button,input,textarea{font:inherit}.app{display:flex;height:100vh}.sidebar{width:270px;background:#090909;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px;transition:.2s}.brand{font-weight:800;font-size:21px;color:var(--bee);padding:10px 12px 16px;display:flex;align-items:center;gap:9px}.bee{font-size:25px}.new{background:#1b1b1b;border:1px solid #303030;color:#fff;border-radius:10px;padding:11px 12px;cursor:pointer;text-align:left}.new:hover,.chatrow:hover,.setting:hover{background:#222}.search{margin:10px 0;padding:10px 11px;border-radius:9px;border:1px solid var(--line);background:#111;color:#fff;outline:none;width:100%}.section{font-size:12px;color:#777;padding:10px 8px 5px}.history{overflow:auto;flex:1}.chatrow{padding:9px 10px;border-radius:8px;color:#ccc;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;justify-content:space-between;gap:5px}.chatrow .x{display:none;color:#888}.chatrow:hover .x{display:block}.bottom{border-top:1px solid var(--line);padding-top:10px}.setting{padding:10px;border-radius:8px;cursor:pointer;color:#ddd}.main{flex:1;display:flex;flex-direction:column;min-width:0}.topbar{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 18px;gap:12px}.mobile{display:none}.title{font-weight:650}.spacer{flex:1}.profilebtn{border:1px solid var(--line);background:#181818;color:#fff;border-radius:20px;padding:7px 11px;cursor:pointer}.messages{flex:1;overflow:auto;padding:28px max(18px,calc((100vw - 900px)/2));scroll-behavior:smooth}.welcome{text-align:center;margin-top:16vh}.welcome h1{font-size:36px;margin:0 0 10px}.welcome h1 span{color:var(--bee)}.welcome p{color:var(--muted)}.msg{display:flex;gap:13px;margin:22px 0;max-width:900px}.avatar{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none;background:#202020}.msg.user .avatar{background:#2b2b2b}.content{line-height:1.65;min-width:0}.content p{margin:0 0 10px}.content pre{position:relative;background:#080808;border:1px solid #303030;border-radius:10px;padding:42px 14px 14px;overflow:auto;margin:12px 0}.content code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}.copy{position:absolute;right:8px;top:8px;background:#202020;color:#ddd;border:1px solid #3a3a3a;border-radius:7px;padding:5px 9px;cursor:pointer;font-size:12px}.composerWrap{padding:12px 18px 18px}.composer{max-width:900px;margin:auto;border:1px solid #343434;background:#151515;border-radius:16px;padding:9px 10px;display:flex;align-items:flex-end;gap:8px}.composer textarea{resize:none;max-height:180px;min-height:44px;flex:1;background:transparent;border:0;outline:0;color:#fff;padding:10px}.send{width:42px;height:42px;border:0;border-radius:12px;background:var(--bee);color:#111;font-weight:800;cursor:pointer}.send:disabled{opacity:.4}.hint{text-align:center;color:#666;font-size:11px;margin-top:8px}.overlay{position:fixed;inset:0;background:#0008;display:none;z-index:10}.drawer{position:absolute;right:0;top:0;height:100%;width:min(390px,100%);background:#111;border-left:1px solid var(--line);padding:20px;overflow:auto}.drawer h2{margin-top:0}.close{float:right;background:none;border:0;color:#aaa;font-size:24px;cursor:pointer}.card{border:1px solid var(--line);background:#171717;border-radius:12px;padding:14px;margin:12px 0}.label{font-size:12px;color:#999;margin-bottom:7px}.field{width:100%;padding:10px;border-radius:8px;background:#0d0d0d;color:#fff;border:1px solid #333}.toggle{display:flex;justify-content:space-between;align-items:center;padding:10px 0}.danger{color:#ff7777;cursor:pointer}.light{--bg:#f6f6f6;--panel:#fff;--panel2:#eee;--text:#111;--muted:#666;--line:#ddd;--bubble:#eee}.light .sidebar{background:#fff}.light .topbar{background:#fff}.light .composer{background:#fff}.light .content pre{background:#f0f0f0;color:#111}.light .field,.light .search{background:#fff;color:#111}
+@media(max-width:750px){.sidebar{position:fixed;z-index:20;height:100%;left:-280px}.sidebar.open{left:0}.mobile{display:block;background:none;border:0;color:#fff;font-size:22px}.messages{padding:20px 12px}.welcome h1{font-size:28px}}
 </style>
 </head>
-<body><main><h1>🐝 Bee AI</h1><p>Server is running successfully.</p><small>Configure .env to connect the AI.</small></main></body>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><span class="bee">🐝</span> Bee AI</div>
+  <button class="new" onclick="newChat()">＋ New chat</button>
+  <input class="search" id="search" placeholder="Search chats..." oninput="renderHistory()">
+  <div class="section">Recent chats</div>
+  <div class="history" id="history"></div>
+  <div class="bottom">
+    <div class="setting" onclick="openSettings()">⚙ Settings</div>
+    <div class="setting" onclick="openProfile()">👤 Profile</div>
+  </div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <button class="mobile" onclick="toggleSidebar()">☰</button>
+    <div class="title">Bee AI</div><div class="spacer"></div>
+    <button class="profilebtn" onclick="openProfile()" id="profileBtn">Guest</button>
+  </header>
+  <section class="messages" id="messages"></section>
+  <div class="composerWrap">
+    <div class="composer">
+      <textarea id="input" placeholder="Message Bee AI..." rows="1"></textarea>
+      <button class="send" id="send" onclick="sendMessage()">↑</button>
+    </div>
+    <div class="hint">Bee AI can make mistakes. Check important information.</div>
+  </div>
+</main>
+</div>
+
+<div class="overlay" id="overlay">
+ <div class="drawer">
+   <button class="close" onclick="closeDrawer()">×</button>
+   <h2 id="drawerTitle">Settings</h2>
+   <div id="drawerBody"></div>
+ </div>
+</div>
+
+<script>
+const KEY="bee_ai_chats_v3", PROFILE="bee_ai_profile_v3", SETTINGS="bee_ai_settings_v3";
+let chats=JSON.parse(localStorage.getItem(KEY)||"[]"), current=null;
+let profile=JSON.parse(localStorage.getItem(PROFILE)||'{"name":"Guest","email":""}');
+let settings=JSON.parse(localStorage.getItem(SETTINGS)||'{"dark":true,"enter":true}');
+const $=id=>document.getElementById(id);
+
+function save(){localStorage.setItem(KEY,JSON.stringify(chats));localStorage.setItem(PROFILE,JSON.stringify(profile));localStorage.setItem(SETTINGS,JSON.stringify(settings));}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function newChat(){current={id:id(),title:"New chat",messages:[]};chats.unshift(current);save();render();closeDrawer();$("input").focus()}
+function currentChat(){if(!current)newChat();return current}
+function render(){renderMessages();renderHistory();$("profileBtn").textContent=profile.name||"Guest";document.body.classList.toggle("light",!settings.dark)}
+function renderHistory(){
+ const q=$("search").value.toLowerCase(); const box=$("history");box.innerHTML="";
+ chats.filter(c=>c.title.toLowerCase().includes(q)).slice(0,80).forEach(c=>{
+  const row=document.createElement("div");row.className="chatrow";row.innerHTML=`<span>${esc(c.title)}</span><span class="x" title="Delete">×</span>`;
+  row.onclick=e=>{if(e.target.classList.contains("x")){chats=chats.filter(x=>x.id!==c.id);if(current?.id===c.id)current=null;save();render();}else{current=c;renderMessages();closeDrawer()}};
+  box.appendChild(row)
+ });
+}
+function renderMessages(){
+ const box=$("messages");box.innerHTML="";
+ if(!current||!current.messages.length){box.innerHTML='<div class="welcome"><h1>How can <span>Bee</span> help?</h1><p>Ask anything, brainstorm, learn, or build code.</p></div>';return}
+ current.messages.forEach(m=>addMessage(m.role,m.content,false));box.scrollTop=box.scrollHeight;
+}
+function addMessage(role,text,scroll=true){
+ const box=$("messages"), wrap=document.createElement("div");wrap.className="msg "+role;
+ const av=role==="user"?"U":"🐝";wrap.innerHTML=`<div class="avatar">${av}</div><div class="content">${markdown(text)}</div>`;box.appendChild(wrap);
+ if(scroll){box.scrollTop=box.scrollHeight;addCopyButtons(wrap)}
+ else addCopyButtons(wrap);
+}
+function markdown(s){
+ s=esc(s);
+ s=s.replace(/```([a-zA-Z0-9_+-]*)\n?([\s\S]*?)```/g,(m,lang,code)=>`<pre><button class="copy" data-code="${encodeURIComponent(code)}">Copy</button><code>${code}</code></pre>`);
+ s=s.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/`([^`]+)`/g,"<code>$1</code>");
+ s=s.replace(/\n/g,"<br>");return s;
+}
+function addCopyButtons(root){
+ root.querySelectorAll(".copy").forEach(b=>b.onclick=async()=>{await navigator.clipboard.writeText(decodeURIComponent(b.dataset.code));b.textContent="Copied!";setTimeout(()=>b.textContent="Copy",1200)});
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function sendMessage(){
+ const input=$("input"), text=input.value.trim();if(!text)return;
+ const c=currentChat(); if(c.title==="New chat")c.title=text.slice(0,42);
+ c.messages.push({role:"user",content:text});input.value="";autoSize();addMessage("user",text);save();renderHistory();
+ $("send").disabled=true;
+ const temp=document.createElement("div");temp.className="msg assistant";temp.innerHTML='<div class="avatar">🐝</div><div class="content">Thinking…</div>';$("messages").appendChild(temp);$("messages").scrollTop=$("messages").scrollHeight;
+ try{
+   const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:c.messages})});
+   const data=await r.json(); if(!r.ok)throw new Error(data.error||"Request failed");
+   temp.remove();c.messages.push({role:"assistant",content:data.reply});save();addMessage("assistant",data.reply);renderHistory();
+ }catch(e){temp.querySelector(".content").textContent="⚠ "+e.message}
+ $("send").disabled=false;
+}
+$("input").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&settings.enter){e.preventDefault();sendMessage()}});
+$("input").addEventListener("input",autoSize);
+function autoSize(){const x=$("input");x.style.height="auto";x.style.height=Math.min(x.scrollHeight,180)+"px"}
+function toggleSidebar(){$("sidebar").classList.toggle("open")}
+function closeDrawer(){$("overlay").style.display="none"}
+function openSettings(){
+ $("drawerTitle").textContent="Settings";
+ $("drawerBody").innerHTML=`
+ <div class="card"><div class="toggle"><span>Dark mode</span><input type="checkbox" ${settings.dark?"checked":""} onchange="settings.dark=this.checked;save();render()"></div>
+ <div class="toggle"><span>Enter to send</span><input type="checkbox" ${settings.enter?"checked":""} onchange="settings.enter=this.checked;save()"></div></div>
+ <div class="card"><div class="label">Chat data</div><button class="new" onclick="if(confirm('Delete all local chats?')){chats=[];current=null;save();render();closeDrawer()}">Delete all chats</button></div>
+ <div class="card"><div class="label">About</div><div>🐝 Bee AI<br><small style="color:#999">Gemini-powered personal AI interface</small></div></div>`;
+ $("overlay").style.display="block";
+}
+function openProfile(){
+ $("drawerTitle").textContent="Profile";
+ $("drawerBody").innerHTML=`
+ <div class="card"><div class="label">Display name</div><input class="field" id="pname" value="${esc(profile.name||"Guest")}">
+ <div class="label" style="margin-top:12px">Email</div><input class="field" id="pemail" value="${esc(profile.email||"")}" placeholder="you@example.com">
+ <button class="new" style="margin-top:12px" onclick="saveProfile()">Save profile</button></div>
+ <div class="card"><div class="label">Google login</div><div style="color:#aaa;font-size:13px">A real Google OAuth login needs your own Google OAuth Client ID and server-side session setup. This profile editor is available now; we can wire Google OAuth next.</div></div>`;
+ $("overlay").style.display="block";
+}
+function saveProfile(){profile.name=$("pname").value.trim()||"Guest";profile.email=$("pemail").value.trim();save();render();closeDrawer()}
+$("overlay").addEventListener("click",e=>{if(e.target===$("overlay"))closeDrawer()});
+if(!chats.length)newChat();else{current=chats[0];render()}
+</script>
+</body>
 </html>

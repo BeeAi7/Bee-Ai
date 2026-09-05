@@ -1,10 +1,13 @@
 {
-  "name": "bee-ai-2",
-  "version": "2.0.1",
-  "scripts": { "start": "node server.js" },
+  "name": "bee-ai",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-    "dotenv": "^17.2.2",
+    "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "openai": "^5.19.1"
+    "openai": "^5.23.0"
   }
 }
